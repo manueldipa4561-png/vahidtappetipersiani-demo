@@ -176,3 +176,17 @@
   .restoration-page .faq-list summary{min-height:48px;padding-top:10px;padding-bottom:10px;display:flex;align-items:center}
   .restoration-page footer>a,.restoration-page .cart-empty .text-link{display:inline-flex;align-items:center;min-height:44px}
 }
+
+/* Desktop Restoration Audit — focused fixes only */
+@media(min-width:981px){
+  /* Match the 16:9 source so the restoration animation is shown without heavy horizontal cropping. */
+  .restoration-page .threed-section{min-height:0}
+  .restoration-page .threed-copy{padding:5vw 6vw}
+  .restoration-page .threed-visual{min-height:0;aspect-ratio:16/9;align-self:center}
+  .restoration-page .threed-visual video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+  /* Increase precision for the small text links most frequently used with a mouse or trackpad. */
+  .restoration-page .nav a{display:inline-flex;align-items:center;min-height:40px}
+  .restoration-page .announcement a{display:inline-flex;align-items:center;height:100%;padding-inline:4px}
+  .restoration-page footer>a{display:inline-flex;align-items:center;min-height:40px;padding-inline:4px}
+}
