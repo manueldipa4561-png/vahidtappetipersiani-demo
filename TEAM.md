@@ -27,3 +27,14 @@ Every refinement should improve client perception or usability while preserving 
 - Existing restoration animation kept visible and given a better responsive aspect ratio.
 - Quick-view and checkout dialogs behave as full-screen mobile sheets.
 - Focus visibility and minimum interactive target sizing improved across the demo.
+
+## Mobile Restoration Audit Squad
+
+For the Lavaggio e restauro mobile audit, the core team operates as a focused four-role squad:
+
+- **Mobile UX Lead** — reviews section order, reading rhythm and small-screen balance.
+- **Motion Reliability Lead** — verifies the restoration animation remains visible, loads correctly and is not replaced by unnecessary controls.
+- **Accessibility / Touch Lead** — checks tap-target sizing and mobile interaction ergonomics.
+- **QA Lead** — validates 375 px, 390 px and 430 px widths and only approves changes that materially improve the client experience.
+
+Audit rule: preserve the approved animation and visual direction; fix only verified issues, not theoretical ones.
