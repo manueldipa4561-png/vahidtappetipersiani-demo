@@ -19,6 +19,22 @@ Real-client redesign concept for **Vahid Tappeti Rari**, researched from the cur
 
 The project uses a deliberately limited generation budget. Existing still assets were retained, then one 6-second restoration animation and one before/after process visual were added. The 3D restoration scene is available separately from the restoration page.
 
+- Restoration motion: `https://d8j0ntlcm91z4.cloudfront.net/user_3JN4lq7KBj4c3qEQUgSkbrftgrd/hf_20260917_133937_2f659a30-7a9f-43c5-8879-0563947cf5d7.mp4`
+- Before/after visual: `https://d8j0ntlcm91z4.cloudfront.net/user_3JN4lq7KBj4c3qEQUgSkbrftgrd/hf_20260917_134541_424b67ab-4fba-4667-8573-e7933c09b040.png`
+- Interactive 3D restoration scene: `https://higgsfield.ai/3d-jutsu/44eef649-ab03-4691-8ada-b29d3c838525`
+
+## Figma design status
+
+The project design file is available at:
+
+`https://www.figma.com/design/LLFMZVbIGrvhLfGbS5zqse`
+
+Completed design frames include the desktop Shop page, desktop Restoration Process page, mobile Shop page and mobile Restoration Process page. The final design QA pass includes the real product imagery in both desktop and mobile shop cards, plus the restoration motion still and before/after visual in the restoration frames.
+
+## Final QA status
+
+The static implementation was checked at desktop, tablet and mobile widths for the homepage, shop and restoration pages. The pass covered horizontal overflow, runtime console/page errors, mobile navigation, quick view, cart quantity flow, shipping selection, special-handling surcharge, checkout opening and the explicit simulated-payment messaging. No real payment processing is connected.
+
 ## Shipping disclaimer
 
 Shipping values inside the demo are **illustrative UI behavior**, not an approved commercial tariff from Vahid Tappeti Rari. The current client website promotes free home pickup/delivery; production rules should define the actual service area, national shipping price, insurance, oversized-item handling and carrier conditions.
