@@ -408,13 +408,74 @@ function hardenClientFacingDemo() {
   }
   const paymentHeading = [...document.querySelectorAll('.checkout-form-pane h3')].find(el => el.textContent.toLowerCase().includes('pagamento'));
   if (paymentHeading) paymentHeading.textContent = 'Pagamento — solo simulazione';
+}
 
-  if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-    $$('video[autoplay]').forEach(video => {
+function setupResilientAutoplay() {
+  const videos = $$('video[autoplay]');
+  if (!videos.length) return;
+
+  const motionQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const reducedMotion = () => Boolean(motionQuery?.matches);
+
+  const prepareVideo = video => {
+    video.autoplay = true;
+    video.loop = true;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+  };
+
+  const tryPlay = video => {
+    if (reducedMotion() || document.hidden) return;
+    prepareVideo(video);
+    if (video.networkState === HTMLMediaElement.NETWORK_EMPTY) video.load();
+    const attempt = video.play();
+    if (attempt && typeof attempt.catch === 'function') attempt.catch(() => {});
+  };
+
+  videos.forEach(video => {
+    prepareVideo(video);
+    if (reducedMotion()) {
       video.removeAttribute('autoplay');
       video.pause();
+      return;
+    }
+    video.addEventListener('loadeddata', () => tryPlay(video), { passive: true });
+    video.addEventListener('canplay', () => tryPlay(video), { passive: true });
+  });
+
+  if (reducedMotion()) return;
+
+  const retryAll = () => videos.forEach(tryPlay);
+  const intersection = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) tryPlay(entry.target);
     });
-  }
+  }, { rootMargin: '160px 0px', threshold: .01 }) : null;
+
+  videos.forEach(video => {
+    intersection?.observe(video);
+    tryPlay(video);
+  });
+
+  window.addEventListener('pageshow', retryAll, { passive: true });
+  window.addEventListener('focus', retryAll, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) retryAll();
+  });
+  document.addEventListener('pointerdown', retryAll, { once: true, passive: true });
+  document.addEventListener('touchend', retryAll, { once: true, passive: true });
+  document.addEventListener('keydown', retryAll, { once: true });
+  [250, 1000, 2500].forEach(delay => setTimeout(retryAll, delay));
+
+  motionQuery?.addEventListener?.('change', () => {
+    if (reducedMotion()) videos.forEach(video => video.pause());
+    else retryAll();
+  });
 }
 
 const observer = new IntersectionObserver(entries => entries.forEach(entry => {
@@ -465,6 +526,7 @@ $$('[data-product-id]').forEach(node => {
 });
 
 hardenClientFacingDemo();
+setupResilientAutoplay();
 renderCart();
 renderRecent();
 setupShopFilters();
