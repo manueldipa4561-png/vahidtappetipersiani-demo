@@ -112,6 +112,7 @@ quickModal?.addEventListener('click',e=>{const r=quickModal.getBoundingClientRec
 function setupShopFilters(){
   const grid=$('#productGrid');if(!grid)return;
   const search=$('#shopSearch'),origin=$('#originFilter'),sort=$('#sortSelect');let category='all';
+  const empty=document.createElement('p');empty.className='shop-empty-state';empty.hidden=true;empty.textContent='Nessun tappeto corrisponde ai filtri selezionati.';grid.after(empty);
   function apply(){
     const q=(search?.value||'').trim().toLowerCase();const ori=origin?.value||'all';
     let cards=$$('#productGrid .shop-card');
@@ -121,6 +122,7 @@ function setupShopFilters(){
     if(mode==='price-desc')visible.sort((a,b)=>+b.dataset.price-+a.dataset.price);
     if(mode==='name')visible.sort((a,b)=>a.dataset.name.localeCompare(b.dataset.name,'it'));
     visible.forEach(c=>grid.appendChild(c));
+    empty.hidden=visible.length!==0;
     const count=$('#resultCount');if(count)count.textContent=`${visible.length} pezzi in selezione`;
   }
   $$('.category-chip').forEach(chip=>chip.addEventListener('click',()=>{$$('.category-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');category=chip.dataset.category;apply();}));
@@ -131,5 +133,22 @@ const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entr
 $$('.reveal').forEach(el=>observer.observe(el));
 $('#menuTrigger')?.addEventListener('click',()=>$('.site-header')?.classList.toggle('menu-open'));
 $$('.nav a').forEach(a=>a.addEventListener('click',()=>$('.site-header')?.classList.remove('menu-open')));
+
+// Final interaction QA: keyboard, focus, mobile-nav state and live status announcements.
+const menuTrigger=$('#menuTrigger');
+const cartTrigger=$('#cartTrigger');
+let lastCartFocus=null;
+menuTrigger?.setAttribute('aria-expanded','false');
+menuTrigger?.addEventListener('click',()=>menuTrigger.setAttribute('aria-expanded',String($('.site-header')?.classList.contains('menu-open'))));
+cartCount?.setAttribute('aria-live','polite');
+$('#resultCount')?.setAttribute('aria-live','polite');
+cartTrigger?.addEventListener('click',()=>{lastCartFocus=document.activeElement;requestAnimationFrame(()=>$('#closeCart')?.focus());});
+$('#closeCart')?.addEventListener('click',()=>lastCartFocus?.focus?.());
+$$('.nav a').forEach(a=>a.addEventListener('click',()=>menuTrigger?.setAttribute('aria-expanded','false')));
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  if(cartDrawer?.classList.contains('open')){closeCart();lastCartFocus?.focus?.();}
+  if($('.site-header')?.classList.contains('menu-open')){$('.site-header').classList.remove('menu-open');menuTrigger?.setAttribute('aria-expanded','false');menuTrigger?.focus();}
+});
 
 renderCart();renderRecent();setupShopFilters();
