@@ -1,0 +1,162 @@
+/*
+  Vahid Tappeti Rari — Experience refinement layer
+  Purpose: responsive UX polish without rewriting the approved visual base.
+  Maintained separately so the refinement pass is easy to review or roll back.
+*/
+
+:where(a,button,input,select,textarea,summary):focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+}
+
+:where(#chi-siamo,#contatti,#processo,#prima-dopo,#productGrid){scroll-margin-top:120px}
+
+.site-header{
+  background:rgba(244,239,230,.97);
+  box-shadow:0 10px 30px rgba(28,21,17,.055);
+  transition:background .28s var(--ease),box-shadow .28s var(--ease),border-color .28s var(--ease);
+}
+
+.btn,.cart-trigger,.menu-trigger,.category-chip{min-height:44px}
+.icon-btn{min-width:44px;min-height:44px;display:inline-grid;place-items:center}
+.page-hero-media video,.threed-visual video{background:#110d0b}
+
+/* Desktop commerce: turn the catalog into a gallery instead of a long two-column feed. */
+@media(min-width:1180px){
+  .product-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+  .shop-card-body{padding:20px}
+  .shop-card h3{font-size:30px}
+  .shop-card p{min-height:84px}
+  .shop-card-price{font-size:30px}
+  .shop-card-actions{gap:8px}
+  .shop-card-actions .btn{padding-inline:12px}
+}
+
+/* Tablet/mobile navigation: cart remains available without opening the menu. */
+@media(max-width:980px){
+  body:has(.site-header.menu-open){overflow:hidden}
+  .site-header{grid-template-columns:1fr auto auto;gap:10px}
+  .nav{display:none}
+  .cart-trigger{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    justify-self:auto;
+    padding:9px 11px;
+    white-space:nowrap;
+  }
+  .cart-trigger span{width:20px;height:20px;margin-left:6px}
+  .menu-trigger{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 4px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:11px;
+  }
+  .site-header.menu-open .nav{
+    display:flex;
+    position:fixed;
+    top:92px;
+    left:0;
+    right:0;
+    max-height:calc(100svh - 92px);
+    overflow:auto;
+    background:rgba(242,236,226,.985);
+    padding:28px 5vw 34px;
+    gap:0;
+    flex-direction:column;
+    align-items:stretch;
+    border-bottom:1px solid var(--line);
+    box-shadow:0 22px 45px rgba(28,21,17,.14);
+    z-index:49;
+  }
+  .site-header.menu-open .nav a{
+    font-family:var(--serif);
+    font-size:30px;
+    line-height:1.05;
+    padding:17px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .site-header.menu-open .nav a:after{display:none}
+  .site-header.menu-open .cart-trigger{display:inline-flex;position:static;right:auto;bottom:auto}
+
+  /* The restoration animation stays prominent without becoming an oversized vertical crop. */
+  .threed-visual{min-height:0;aspect-ratio:16/10}
+  .threed-visual video{position:absolute;inset:0;width:100%;height:100%}
+  .quick-image{min-height:0;aspect-ratio:4/3}
+}
+
+@media(max-width:640px){
+  .site-header{padding-inline:16px;gap:7px}
+  .brand{gap:8px}
+  .brand span:last-child{display:none}
+  .cart-trigger{font-size:10px;padding:8px 9px}
+  .menu-trigger{font-size:10px}
+  .site-header.menu-open .nav{top:74px;max-height:calc(100svh - 74px);padding:20px 22px 28px}
+  .site-header.menu-open .nav a{font-size:28px;padding:15px 0}
+
+  .intro,.collection,.visit,.page-section,.shop-shell,.process-page,.compare-section,.faq-section,.recent-section,.shipping-story,.restoration-trust,.quote-cta{
+    padding:64px 22px;
+  }
+
+  /* Horizontally scrollable taxonomy keeps the first shop screen compact and touch-friendly. */
+  .category-row{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none;
+    margin-right:-22px;
+    padding-right:22px;
+    padding-bottom:4px;
+  }
+  .category-row::-webkit-scrollbar{display:none}
+  .category-chip{flex:0 0 auto;scroll-snap-align:start}
+  .shop-toolbar input,.shop-toolbar select{min-height:48px}
+
+  /* Product cards are still editorial, but no longer require excessive scrolling. */
+  .shop-card-media{aspect-ratio:16/10}
+  .shop-card-body p{
+    min-height:0;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    overflow:hidden;
+  }
+  .shop-card-actions{display:grid;grid-template-columns:1fr 1fr}
+  .shop-card-actions .btn{min-width:0;padding-inline:10px}
+
+  /* The five restoration steps become a scannable vertical sequence. */
+  .process-step{
+    display:grid;
+    grid-template-columns:48px 1fr;
+    column-gap:14px;
+    align-items:start;
+    padding:20px 0;
+  }
+  .process-step span{grid-row:1 / span 2;font-size:28px;line-height:1}
+  .process-step h3{margin:0 0 6px;font-size:25px}
+  .process-step p{margin:0}
+
+  .threed-copy{padding:64px 22px 40px}
+  .threed-visual{aspect-ratio:16/10}
+  .threed-badge{left:12px;bottom:12px;max-width:calc(100% - 24px);padding:9px 10px;font-size:8px}
+  .compare-media{aspect-ratio:4/3}
+
+  /* Product and checkout overlays behave like native mobile sheets. */
+  .quick-modal{width:100vw;max-width:none;margin:0;border-radius:0}
+  .quick-grid{max-height:100svh;overflow:auto}
+  .quick-copy{padding:38px 22px 28px}
+  .checkout-modal{width:100vw;max-width:none;height:100svh;max-height:100svh;margin:0;border-radius:0}
+  .checkout-form-pane{padding:64px 22px 28px}
+  .quote-actions .btn{flex:1 1 100%;text-align:center}
+  footer{padding:34px 22px}
+}
+
+/* Hover effects should not create jumpiness on touch devices. */
+@media(hover:none){
+  .btn:hover,.shop-card:hover{transform:none}
+  .shop-card:hover .shop-card-media img,.product-card:hover .product-image,.collection-banner:hover img{transform:none}
+}
