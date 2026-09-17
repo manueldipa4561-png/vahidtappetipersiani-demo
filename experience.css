@@ -160,3 +160,19 @@
   .btn:hover,.shop-card:hover{transform:none}
   .shop-card:hover .shop-card-media img,.product-card:hover .product-image,.collection-banner:hover img{transform:none}
 }
+
+/* Mobile Restoration Audit — focused fixes only */
+@media(max-width:640px){
+  /* Put the motion first in this section so visitors cannot miss the animation after the five-step process. */
+  .restoration-page .threed-section{display:flex;flex-direction:column}
+  .restoration-page .threed-visual{order:0;aspect-ratio:16/10}
+  .restoration-page .threed-copy{order:1;padding:48px 22px 56px}
+
+  /* Restore comfortable mobile tap areas without changing the visual language. */
+  .restoration-page .announcement{height:44px;min-height:44px}
+  .restoration-page .announcement a{display:inline-flex;align-items:center;min-height:44px}
+  .restoration-page .brand{min-width:44px;min-height:44px;justify-content:center}
+  .restoration-page .menu-trigger{min-width:44px}
+  .restoration-page .faq-list summary{min-height:48px;padding-top:10px;padding-bottom:10px;display:flex;align-items:center}
+  .restoration-page footer>a,.restoration-page .cart-empty .text-link{display:inline-flex;align-items:center;min-height:44px}
+}
